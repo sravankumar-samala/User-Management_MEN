@@ -14,6 +14,6 @@ mongoose.connect(process.env.MONGO_URI, { dbName: 'users_db' })
     .then(() => console.log('Connected Successfully'))
     .catch((error) => console.log('Error', error))
 
-app.use('/users', userRoutes)
+app.use('/', userRoutes)
 
 app.listen(port, () => console.log(`Listening on port ${port}`))
