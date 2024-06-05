@@ -32,6 +32,21 @@ const getSingleUser = async (req, res) => {
     }
 }
 
+const updateUser = async (req, res) => {
+    const { id } = req.params
+    try {
+        const updatedUser = await User.findByIdAndUpdate(id, req.body, { new: true })
+        if (!updatedUser) {
+            res.json({ "Error": "User Not Found" })
+        } else {
+            res.json({ updatedUser })
+        }
+    } catch (error) {
+        console.log("Error", error)
+        res.status(500).json({ message: 'Server Error' })
+    }
+}
+
 const deleteUser = async (req, res) => {
     const { id } = req.params
     try {
@@ -43,4 +58,4 @@ const deleteUser = async (req, res) => {
     }
 }
 
-module.exports = { createUser, getAllUsers, getSingleUser, deleteUser }
+module.exports = { createUser, getAllUsers, getSingleUser, deleteUser, updateUser }
