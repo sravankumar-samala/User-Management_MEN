@@ -12,9 +12,16 @@ const createUser = async (req, res) => {
 }
 
 const getAllUsers = async (req, res) => {
+    const { limit = 10, page = 1 } = req.query
+
     try {
-        const allUsers = await User.find({})
-        res.status(200).send(allUsers)
+        const allUsers = await User.find({}).limit(limit * 1).skip((page - 1) * limit).exec()
+        const count = await User.countDocuments()
+        res.json({
+            users: allUsers,
+            totalPages: Math.ceil(count / limit),
+            currentPage: page
+        })
     } catch (error) {
         console.log("Error", error)
         res.status(500).json({ message: 'Server Error' })
